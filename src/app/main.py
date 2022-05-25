@@ -6,11 +6,8 @@ import pandas as pd
 from sklearn.preprocessing import OrdinalEncoder
 
 PATH = "./data/train.csv"
-df = pd.read_csv(PATH)
-
 features = ["Age", "Group", "NumInGroup"]
 LABEL = "Transported"
-mean_age = df['Age'].mean()
 
 def splitting_id(df):
     '''
@@ -21,7 +18,7 @@ def splitting_id(df):
     Returns:
         pandas.DataFrame
     '''
-    
+
     df[['Group', 'NumInGroup']] = df['PassengerId'].str.split('_', 1, expand=True)
     return df
 
@@ -35,10 +32,10 @@ def encode_to_float(df):
         pandas.DataFrame
     '''
 
-    dfObjects = (df[features].dtypes == 'object')
-    object_cols = list(dfObjects[dfObjects].index)
-    ordinalEncoder = OrdinalEncoder()
-    df[object_cols] = ordinalEncoder.fit_transform(df[object_cols])
+    df_objects = (df[features].dtypes == 'object')
+    object_cols = list(df_objects[df_objects].index)
+    ordinal_encoder = OrdinalEncoder()
+    df[object_cols] = ordinal_encoder.fit_transform(df[object_cols])
     return df
 
 def impute_age(df, value):
@@ -71,5 +68,15 @@ def transform_data(df, mean_age_value):
     df = impute_age(df, mean_age_value)
     return df
 
+def main():
+    '''
+    Main function for app
+    '''
+    df = pd.read_csv(PATH)
 
+    mean_age = df['Age'].mean()
 
+    df = transform_data(df, mean_age)
+
+if __name__ == '__main__':
+    main()
