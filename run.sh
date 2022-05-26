@@ -1,4 +1,4 @@
 #!/bin/bash -e
 pip install .
-./linter.sh 
+./linter.sh "9.00" "./src/app"
 python -m app.main
