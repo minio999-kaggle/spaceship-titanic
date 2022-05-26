@@ -1,9 +1,7 @@
 '''
 main module for app
 '''
-import sys
-from app.preproccessing.pre_proccessing import get_df
-sys.path.append('..')
+from .preproccessing import get_df
 
 
 PATH = "./data/train.csv"
