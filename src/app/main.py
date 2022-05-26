@@ -1,9 +1,11 @@
 '''
 main module for app
 '''
-
+import sys
 import pandas as pd
-from preproccessing import transform_data
+from app.preproccessing.pre_proccessing import transform_data
+sys.path.append('..')
+
 
 PATH = "./data/train.csv"
 LABEL = "Transported"
