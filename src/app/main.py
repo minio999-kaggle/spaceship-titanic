@@ -2,8 +2,7 @@
 main module for app
 '''
 import sys
-import pandas as pd
-from app.preproccessing.pre_proccessing import transform_data
+from app.preproccessing.pre_proccessing import get_df
 sys.path.append('..')
 
 
@@ -14,9 +13,9 @@ def main():
     '''
     Main function for app
     '''
-    df = pd.read_csv(PATH)
-    mean_age = df['Age'].mean()
-    df = transform_data(df, mean_age)
+    df = get_df()
+    print(df.head())
+
 
 if __name__ == '__main__':
     main()

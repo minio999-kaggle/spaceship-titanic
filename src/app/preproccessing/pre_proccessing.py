@@ -3,6 +3,7 @@ main module for preproccsesing data
 '''
 
 from sklearn.preprocessing import OrdinalEncoder
+import pandas as pd
 
 PATH = "./data/train.csv"
 features = ["Age", "Group", "NumInGroup"]
@@ -64,4 +65,16 @@ def transform_data(df, mean_age_value):
     df = splitting_id(df)
     df = encode_to_float(df)
     df = impute_age(df, mean_age_value)
+    return df
+
+def get_df():
+    '''
+    Sharing dataframe after aplying preprocessing
+
+    Returns:
+        pandas.DataFrame
+    '''
+    df = pd.read_csv(PATH)
+    mean_age = df['Age'].mean()
+    df = transform_data(df, mean_age)
     return df
