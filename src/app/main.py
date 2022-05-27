@@ -21,11 +21,11 @@ def main():
     df = get_df()
     X_raw = df[features]
     y = df[LABEL]
-
+    
     k_fold = KFold(
     n_splits=5,
     shuffle=True,
-    random_state=46
+    random_state=42
     )
 
     scores = []
