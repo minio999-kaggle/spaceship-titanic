@@ -5,21 +5,22 @@ import numpy as np
 from sklearn.model_selection import KFold
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.metrics import accuracy_score
+from sklearn.decomposition import PCA
 from .preproccessing import get_df
 
 PATH = "./data/train.csv"
-features = ["Age", "Group", "NumInGroup"]
 LABEL = "Transported"
 N_ESTIMATORS = 300
 RANDOM_STATE = 42
 MAX_DEPTH = 12
+N_COMPONENTS = 11
 
 def main():
     '''
     Main function for app
     '''
     df = get_df()
-    X_raw = df[features]
+    X_raw = df.drop(['Transported'], axis=1).select_dtypes(exclude=['object'])
     y = df[LABEL]
 
     k_fold = KFold(
@@ -28,10 +29,14 @@ def main():
     random_state=42
     )
 
+    pca=PCA(n_components=N_COMPONENTS)
+    pca.fit(X_raw)
+    X=pca.transform(X_raw)
+
     scores = []
 
-    for train_index, test_index in k_fold.split(X_raw):
-        X_train, X_test = X_raw.loc[train_index], X_raw.loc[test_index]
+    for train_index, test_index in k_fold.split(X):
+        X_train, X_test = X[train_index], X[test_index]
         y_train, y_test = y.loc[train_index], y.loc[test_index]
 
         clf = RandomForestClassifier(n_estimators=N_ESTIMATORS,

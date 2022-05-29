@@ -2,69 +2,74 @@
 main module for preproccsesing data
 '''
 
+from sklearn.impute import SimpleImputer
+from sklearn.preprocessing import StandardScaler
 from sklearn.preprocessing import OrdinalEncoder
 import pandas as pd
 
 PATH = "./data/train.csv"
-features = ["Age", "Group", "NumInGroup"]
-
-def splitting_id(df):
-    '''
-    Originally Id is in format gggg:pp where gggg is group and pp is person in group
-
-    Parameters:
-        dataframe (pandas.DataFrame): DataFrame on which to operate
-    Returns:
-        pandas.DataFrame
-    '''
-
-    df[['Group', 'NumInGroup']] = df['PassengerId'].str.split('_', 1, expand=True)
-    return df
 
 def encode_to_float(df):
     '''
     encode categorical data to float since group and num in group are objects
-
     Parameters:
         dataframe (pandas.DataFrame): DataFrame on which to operate
     Returns:
         pandas.DataFrame
     '''
 
-    df_objects = (df[features].dtypes == 'object')
+    df_objects = (df.dtypes == 'object')
     object_cols = list(df_objects[df_objects].index)
     ordinal_encoder = OrdinalEncoder()
     df[object_cols] = ordinal_encoder.fit_transform(df[object_cols])
     return df
 
-def impute_age(df, value):
+def scaling_features(df):
     '''
-    Replaces Nulls in column "Age" of a dataframe with the passed value
+    Scaling features
 
     Parameters:
-        dataframe (pandas.DataFrame): DataFrame on which to operate
-        value (float): Value used for imputation
+        df (pandas.DataFrame): Dataframe on which to operate
     Returns:
         pandas.DataFrame
     '''
 
-    df['Age'] = df['Age'].fillna(value)
-    return df
+    scaler = StandardScaler()
+    x_train = df.drop(['Transported'], axis=1)
+    scaler.fit(x_train)
+    scaled_data = scaler.transform(x_train)
+    scaled_data = pd.DataFrame(scaled_data, columns=x_train.columns)
+    scaled_data.insert(loc=0, column='Transported', value=df['Transported'])
+    return scaled_data
 
-def transform_data(df, mean_age_value):
+def impute_features(df):
+    '''
+    Impute missing values in features
+
+    Parameters:
+        df (pandas.DataFrame): Dataframe on which to operate
+    Returns:
+        pandas.DataFrame
+    '''
+
+    imputer = SimpleImputer()
+    imputer.fit(df)
+    imputed_df = pd.DataFrame(imputer.transform(df))
+    imputed_df.columns = df.columns
+    return imputed_df
+
+def transform_data(df):
     '''
     Applying data cleaning functions to data sets
 
     Paramters:
         dataframe (pandas.DataFrame): Dataframe on which to operate
-        mean_age (float): Mean age of training data set
     Retruns:
         pandas.DataFrame
     '''
-
-    df = splitting_id(df)
     df = encode_to_float(df)
-    df = impute_age(df, mean_age_value)
+    df = scaling_features(df)
+    df = impute_features(df)
     return df
 
 def get_df():
@@ -75,6 +80,5 @@ def get_df():
         pandas.DataFrame
     '''
     df = pd.read_csv(PATH)
-    mean_age = df['Age'].mean()
-    df = transform_data(df, mean_age)
+    df = transform_data(df)
     return df
