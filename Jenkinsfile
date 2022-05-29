@@ -58,7 +58,7 @@ spec:
                 script {
                     container.inside("-u root --entrypoint=\'\'") {
                         sh 'chmod +x /app/linter.sh'
-                        sh '/app/linter.sh "9.00" "/app/src/demoapp"'
+                        sh '/app/linter.sh "9.00" "/src/app"'
                     }
                 }
             }
