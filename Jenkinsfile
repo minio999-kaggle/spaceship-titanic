@@ -46,7 +46,7 @@ spec:
             steps {
                 script {
                     docker.withRegistry(dockerRegistryURL) {
-                        container = docker.build(imageName, dockerfile)
+                        container = docker.build(imageName.toLowerCase(), dockerfile)
                     }
                 }
             }
