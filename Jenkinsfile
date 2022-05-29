@@ -37,7 +37,7 @@ spec:
         def container = null
         def dockerfile = "."
         def dockerRegistryURL = "127.0.0.1:5000"
-        def imageName = "demoapp-${BRANCH_NAME}"
+        def imageName = "minio999-kaggle-${BRANCH_NAME}"
         def devBranch = "dev"
     }
 
