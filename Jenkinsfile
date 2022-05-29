@@ -83,7 +83,7 @@ spec:
             cleanWs()
 
             script {
-                if ( env.BRANCH_NAME == masterBranch || env.BRANCH_NAME == qaBranch ) {
+                if ( env.BRANCH_NAME == devBranch) {
                     sh "docker image rm $imageName"
                 }
                 sh "docker container prune -f"
