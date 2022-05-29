@@ -13,14 +13,14 @@ LABEL = "Transported"
 N_ESTIMATORS = 300
 RANDOM_STATE = 42
 MAX_DEPTH = 12
+N_COMPONENTS = 11
 
 def main():
     '''
     Main function for app
     '''
     df = get_df()
-    scship_predictors = df.drop(['Transported'], axis=1)
-    X = scship_predictors.select_dtypes(exclude=['object'])
+    X_raw = df.drop(['Transported'], axis=1).select_dtypes(exclude=['object'])
     y = df[LABEL]
 
     k_fold = KFold(
@@ -29,14 +29,14 @@ def main():
     random_state=42
     )
 
-    pca=PCA(n_components=10)
-    pca.fit(X)
-    x=pca.transform(X)
+    pca=PCA(n_components=N_COMPONENTS)
+    pca.fit(X_raw)
+    X=pca.transform(X_raw)
 
     scores = []
 
     for train_index, test_index in k_fold.split(X):
-        X_train, X_test = X.loc[train_index], X.loc[test_index]
+        X_train, X_test = X[train_index], X[test_index]
         y_train, y_test = y.loc[train_index], y.loc[test_index]
 
         clf = RandomForestClassifier(n_estimators=N_ESTIMATORS,

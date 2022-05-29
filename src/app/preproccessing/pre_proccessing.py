@@ -3,25 +3,26 @@ main module for preproccsesing data
 '''
 
 from sklearn.impute import SimpleImputer
+from sklearn.preprocessing import StandardScaler
+from sklearn.preprocessing import OrdinalEncoder
 import pandas as pd
 
 PATH = "./data/train.csv"
-features = ["Age", "Group", "NumInGroup"]
 
-def impute_features(df):
+def encode_to_float(df):
     '''
-    Impute missing values in features
-
+    encode categorical data to float since group and num in group are objects
     Parameters:
-        df (pandas.DataFrame): Dataframe on which to operate
+        dataframe (pandas.DataFrame): DataFrame on which to operate
     Returns:
         pandas.DataFrame
     '''
-    imputer = SimpleImputer(missing_values=np.nan, strategy='mean')
-    imputer.fit(df)
-    imputed_df = pd.DataFrame(imputer.transform(df))
-    imputed_df.columns = df.columns
-    return imputed_df
+
+    df_objects = (df.dtypes == 'object')
+    object_cols = list(df_objects[df_objects].index)
+    ordinal_encoder = OrdinalEncoder()
+    df[object_cols] = ordinal_encoder.fit_transform(df[object_cols])
+    return df
 
 def scaling_features(df):
     '''
@@ -32,11 +33,30 @@ def scaling_features(df):
     Returns:
         pandas.DataFrame
     '''
+
     scaler = StandardScaler()
-    scaler.fit(df)
-    scaled_df = pd.DataFrame(scaler.transform(df))
-    scaled_df.columns = df.columns
-    return scaled_df
+    x_train = df.drop(['Transported'], axis=1)
+    scaler.fit(x_train)
+    scaled_data = scaler.transform(x_train)
+    scaled_data = pd.DataFrame(scaled_data, columns=x_train.columns)
+    scaled_data.insert(loc=0, column='Transported', value=df['Transported'])
+    return scaled_data
+
+def impute_features(df):
+    '''
+    Impute missing values in features
+
+    Parameters:
+        df (pandas.DataFrame): Dataframe on which to operate
+    Returns:
+        pandas.DataFrame
+    '''
+
+    imputer = SimpleImputer()
+    imputer.fit(df)
+    imputed_df = pd.DataFrame(imputer.transform(df))
+    imputed_df.columns = df.columns
+    return imputed_df
 
 def transform_data(df):
     '''
@@ -47,9 +67,9 @@ def transform_data(df):
     Retruns:
         pandas.DataFrame
     '''
-
-    df = impute_features(df)
+    df = encode_to_float(df)
     df = scaling_features(df)
+    df = impute_features(df)
     return df
 
 def get_df():
