@@ -67,8 +67,7 @@ spec:
         stage('testing') {
             when {
                 anyOf {
-                    expression { env.BRANCH_NAME == masterBranch }
-                    expression { env.BRANCH_NAME == qaBranch }
+                    expression { env.BRANCH_NAME == devBranch }
                 }
             }
             steps {
