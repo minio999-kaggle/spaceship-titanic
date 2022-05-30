@@ -1,6 +1,6 @@
 import numpy as np
 import pandas as pd
-from ..src.app.preproccessing import get_df, encode_tofloat, scaling_features, impute_features, transform_data
+from ..src.app.preproccessing import encode_tofloat, scaling_features, impute_features, transform_data, get_df
 
 def test_encode_to_float():
     """
