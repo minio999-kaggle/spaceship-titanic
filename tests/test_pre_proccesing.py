@@ -15,7 +15,7 @@ def test_scaling_features():
     """
     Test scaling_features function
     """
-    test_data = {'test': [1,2,3,4,5,6,7,8,9,10],
+    test_data = {'test': [1,2,3,4,5,6,7,8,9,10,11,12],
                 'Transported': [True, False, True, False, True, False, True, False, True, False, True, False]}
     df = pd.DataFrame(test_data)
     df = scaling_features(df)
