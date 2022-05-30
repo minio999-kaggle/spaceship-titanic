@@ -27,7 +27,7 @@ def test_impute_features():
     test_data = [np.nan, 2.01, 3.02, np.nan, np.nan, np.nan]
     df = pd.DataFrame(test_data)
     df = impute_features(df)
-    assert df.dtypes == np.float64
+    assert df.isnull().sum().sum() == 0
 
 def test_transorm_data():
     """
