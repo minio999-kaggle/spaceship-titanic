@@ -9,7 +9,7 @@ def test_encode_to_float():
     test_data = ['test', 'test2', 'test3']
     df = pd.DataFrame(test_data)
     df = encode_to_float(df)
-    assert df.isnumeric() == True
+    assert pd.to_numeric(df['column'], errors='coerce').notnull().all() == True
 
 def test_scaling_features():
     """
