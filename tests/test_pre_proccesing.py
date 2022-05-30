@@ -1,6 +1,6 @@
 import numpy as np
 import pandas as pd
-from preprocessing import scaling_features, impute_features, transform_data, get_df
+from .preprocessing import scaling_features, impute_features, transform_data, get_df, encode_to_float
 
 def test_encode_to_float():
     """
@@ -8,7 +8,7 @@ def test_encode_to_float():
     """
     test_data = ['test', 'test2', 'test3']
     df = pd.DataFrame(test_data)
-    df = encode_tofloat(df)
+    df = encode_to_float(df)
     assert df.dtypes == np.float64
 
 def test_scaling_features():
