@@ -16,7 +16,7 @@ setup(
     url='',
     license=license,
     include_package_data=True,
-    package_dir={"":"src"},
-    packages=find_packages(where='src'),
+    package_dir={"":"src", "tests":"tests"},
+    packages=find_packages(),
     install_requires=required
 )
