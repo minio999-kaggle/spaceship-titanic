@@ -6,10 +6,10 @@ def test_encode_to_float():
     """
     Test encode_to_float function
     """
-    test_data = ['test', 'test2', 'test3']
-    df = pd.DataFrame(test_data)
+    df = pd.DataFrame({
+    'test': ['test','test 2', 'test 3', 'test 4', 'test 5']})
     df = encode_to_float(df)
-    assert pd.to_numeric(df['column'], errors='coerce').notnull().all() == True
+    assert pd.test.isnumeric() == True
 
 def test_scaling_features():
     """
