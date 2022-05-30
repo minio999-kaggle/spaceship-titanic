@@ -39,7 +39,7 @@ spec:
         def dockerRegistryURL = "127.0.0.1:5000"
         def imageName = "minio999-kaggle-${BRANCH_NAME}"
         def devBranch = "dev"
-        def testsBranch = "tests"
+        def testsBranch = "feature/tests"
     }
 
     stages {
