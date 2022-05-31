@@ -19,6 +19,6 @@ def test_transorm_data():
                         'category': [-1.59325501, -1.30357228, -1.01388955, -0.72420682, -0.43452409,
                                 -0.14484136,  0.14484136,  0.43452409,  0.72420682,  1.01388955,
                                 1.30357228,  1.59325501] })
-    assert assert_frame_equal(df, expected_df)
+    assert assert_frame_equal(df, expected_df) is None
     
 
