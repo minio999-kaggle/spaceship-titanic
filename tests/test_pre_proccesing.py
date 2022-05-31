@@ -1,7 +1,7 @@
 import numpy as np
 import pandas as pd
 from app.preproccessing import transform_data
-from pandas.util.testing import assert_frame_equal
+from pandas.testing import assert_frame_equal
 
 def test_transorm_data():
     """
