@@ -68,8 +68,8 @@ def transform_data(df):
         pandas.DataFrame
     '''
     df = encode_to_float(df)
-    df = scaling_features(df)
     df = impute_features(df)
+    df = scaling_features(df)
     return df
 
 def get_df():
