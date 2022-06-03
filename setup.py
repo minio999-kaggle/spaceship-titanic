@@ -1,8 +1,5 @@
 from setuptools import setup, find_packages
 
-with open('requirements.txt') as file:
-    required = file.read().splitlines()
-
 with open("LICENSE") as file:
     license = file.read() 
 
@@ -18,5 +15,4 @@ setup(
     include_package_data=True,
     package_dir={"":"src"},
     packages=find_packages(where='src'),
-    install_requires=required
 )
